@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:downloads_path_provider/downloads_path_provider.dart';
-import 'package:flutter/cupertino.dart';
 
 
 class FilePath {
@@ -18,13 +17,13 @@ class FilePath {
 
 
 
-   Future<String> get downloadDirectory async{
-     Directory downloadsDirectory = await DownloadsPathProvider.downloadsDirectory;
-     String tempPath = downloadsDirectory.path;
- ///    debugPrint("path from path class : $tempPath");
-     return tempPath;
-
-   }
+//   Future<String> get downloadDirectory async{
+//     Directory downloadsDirectory = await DownloadsPathProvider.downloadsDirectory;
+//     String tempPath = downloadsDirectory.path;
+// ///    debugPrint("path from path class : $tempPath");
+//     return tempPath;
+//
+//   }
 
 //
 //  Future getExFilePath() async {

@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:key_guardmanager/key_guardmanager.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:accounts/ui/home.dart';
 import 'package:accounts/library/bioMSinsor.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:flutter/services.dart';
 
 class Login extends StatefulWidget  {
 
@@ -16,9 +18,41 @@ class Login extends StatefulWidget  {
 class _Login extends State<Login>  {
 
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   BioMetric bb = new BioMetric();
   String massige = "";
+  String _platformVersion = 'Unknown';
 
+
+  Future<void> initPlatformState() async {
+    String platformVersion;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      platformVersion = await KeyGuardmanager.authStatus;
+      if(platformVersion == "true"){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ListView1()),
+        );
+      }
+      print(platformVersion);
+    } on PlatformException {
+      platformVersion = 'Failed to get platform offline Auth.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _platformVersion = platformVersion;
+    });
+  }
 
 
   @override
@@ -49,8 +83,7 @@ class _Login extends State<Login>  {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-
-
+//                   new Text(_responseFromNativeCode.toString()),
 
                     new Text("للتحقق من هويتك بأستخدام بصمتك المميزة",
 
@@ -63,7 +96,6 @@ class _Login extends State<Login>  {
 
                     ),
 
-
                     //   padding: EdgeInsets.all(5),
                     new Text("اضغط على زر تسجيل الدخول لطفاً",
                       style: TextStyle(
@@ -71,12 +103,19 @@ class _Login extends State<Login>  {
                         fontWeight: FontWeight.bold,
                       ), textAlign: TextAlign.center,
                     ),
-
+                    Text('Running on: $_platformVersion\n'),
                     Container(
                       padding: EdgeInsets.only(top: 10),
                       child:
-                      OutlineButton.icon(onPressed: checkCheck,
+                      OutlineButton.icon(onPressed: initPlatformState ,
                           label: new Text("تسجيل الدخول",),
+                          icon: Icon(Icons.play_arrow)),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(top: 10),
+                      child:
+                      OutlineButton.icon(onPressed: checkCheck ,
+                          label: new Text("تسجيل الدخول يصمة",),
                           icon: Icon(Icons.play_arrow)),
                     ),
                     Container(
@@ -121,18 +160,20 @@ class _Login extends State<Login>  {
 
     if (canCheckBiometrics == true) {
       if (x == true) {
-
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => ListView1()),
         );
 
+      } else {
+
       }
 
     } else if (canCheckBiometrics == false) {
 
-      setState(() {
+  //    nativePass();
 
+      setState(() {
         massige = "للأسف هذا الهاتف لا يملك اي نوع من انواع البصمة";
       });
 

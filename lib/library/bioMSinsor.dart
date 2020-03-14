@@ -5,9 +5,7 @@ import 'package:local_auth/auth_strings.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 
-
 class BioMetric {
-
 
 
 
@@ -20,10 +18,11 @@ class BioMetric {
     bool authenticated = false;
     bool ay = false;
 
-
     final List<BiometricType> availableBiometrics = await auth
         .getAvailableBiometrics();
-
+    availableBiometrics.forEach((f){
+      print(f);
+    });
 
     if (Platform.isAndroid) {
       switch (availableBiometrics.toString()) {
@@ -80,15 +79,19 @@ class BioMetric {
                     fingerprintSuccess: "تم بنجاح",
                     signInTitle: "بصمة الأصبع",
                     cancelButton: 'الغاء',
+
                     goToSettingsButton: 'أعدادات',
                     goToSettingsDescription: 'أضبط بصمتك',
                   ),
                   useErrorDialogs: false,
                   stickyAuth: true);
+
+
             }
 
             on PlatformException catch (e) {
-              print(e);
+
+              print( "print finger" + e.toString());
             }
 
 
@@ -183,6 +186,9 @@ class BioMetric {
   }///end of auth method
 
 
- 
+
+
+
+
 }
 

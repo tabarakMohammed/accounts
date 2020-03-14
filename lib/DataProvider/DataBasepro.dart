@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -31,7 +30,7 @@ class SqlLight{
 
     String databasePath = await getDatabasesPath();
     String path = join(databasePath , 'Acounts.db');
-    var db = await openDatabase(path , version: 1 , onCreate: _onCreate);
+    var db = await openDatabase(path , version: 2 , onCreate: _onCreate);
     return db;
   }
 

@@ -47,6 +47,10 @@ class _ListView1 extends State<ListView1>  {
     }
   }
 
+  search1(String searchQuery) {
+    search(searchQuery);
+  }
+
 ///import databaseFile
   void getExFile() async {
     try {
@@ -160,7 +164,7 @@ class _ListView1 extends State<ListView1>  {
                   ),
                   style: TextStyle(color: Colors.white, fontSize: 20.0),
                   onTap: ()  => search(_searchQueryController.text),
-
+                  onChanged: search1(_searchQueryController.text) ,
                   onSubmitted: (_searchQueryController){
                    print(_searchQueryController);
                    search(_searchQueryController);

@@ -187,22 +187,21 @@ class _AllOInfo extends State<AllOInfo> {
                               OutlineButton.icon(icon: Icon(Icons.edit),
                                 textColor: Colors.yellow,
                                 highlightColor:  Colors.yellow,
-
                                 onPressed: itsWorked1 ? set : null,
                                 label: Text("تعديل"),
 
                               ),
 
                               OutlineButton.icon(
-                                highlightColor:  Colors.greenAccent,
-                                textColor: Colors.greenAccent,
+                                highlightColor:  Colors.white,
+                                textColor: Colors.white,
                                   icon: Icon(Icons.restore),
                                   onPressed: () {
                                     _uerName.text = myinfo['names'];
                                     _email.text = myinfo['email'];
                                     _passward.text = myinfo['passward'];
                                   },
-                                label: Text('إعادة البيانات',
+                                label: Text('أستعادة',
                                   style: TextStyle(fontStyle: FontStyle.italic),),
                               )
 
