@@ -193,6 +193,7 @@ class _AllOInfo extends State<AllOInfo> {
                               ),
 
                               OutlineButton.icon(
+
                                 highlightColor:  Colors.white,
                                 textColor: Colors.white,
                                   icon: Icon(Icons.restore),
@@ -240,9 +241,6 @@ class _AllOInfo extends State<AllOInfo> {
 
 
   upDate(){
-
-
-    debugPrint("sdjhf");
     db.upDate(Model(_uerName.text,_email.text,_passward.text),widget.model.id)
         .then((action){
       Navigator.push(

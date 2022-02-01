@@ -55,12 +55,10 @@ class _ListView1 extends State<ListView1>  {
   void getExFile() async {
     try {
       var path = await FilePicker.getFilePath();
-      print(path);
-
+     //  debugPrint(path);
       if( path == null )
         {
-          {errorF = " !!! ";
-          print(errorF);}
+          {errorF = " !!! ";}
 
         }
       else if(path.endsWith(".db")) {
@@ -73,11 +71,9 @@ class _ListView1 extends State<ListView1>  {
         BackupInsert();
 
       } else
-            { errorF = "تأكد من أمتداد الفايل .db ";
-            print(errorF);}
+            { errorF = "تأكد من أمتداد الفايل .db ";}
     }
     catch(e) {
-      print(e);
       errorF = e;
     }
   }
@@ -127,17 +123,22 @@ class _ListView1 extends State<ListView1>  {
 
       home: Scaffold(
 
-        backgroundColor:Color(0xFFFFcd84f1),
+        backgroundColor:Color(0xFF2f3542),
 
         appBar: AppBar(
 
-          title: Text("حساباتي"),
+          title: Text("حساباتي",
+              style:TextStyle(
+              color: Color(0xFFeccc68),
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+           ) ,),
           centerTitle: false,
-          backgroundColor: Color(0xFF2c2c54),///2E2E2E
+          backgroundColor: Color(0xFF2f3542),///2E2E2E
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(35.0),
             child: Theme(
-              data: Theme.of(context).copyWith(accentColor: Colors.blue),
+              data: Theme.of(context).copyWith(accentColor: Colors.red),
               child: Row(  children:<Widget>[
               Expanded(
                 child: TextField(
@@ -149,12 +150,12 @@ class _ListView1 extends State<ListView1>  {
                 //  textCapitalization: TextCapitalization.words,
                   controller: _searchQueryController,
                   decoration: InputDecoration(
-                    hintText: " ... بحث عن طريق أسم الموقع",
-                    hintStyle: TextStyle(color: Colors.white30),
+                    hintText: "  أسم الموقع",
+                    hintStyle: TextStyle(color: Color(0xFFeccc68)),
                    contentPadding: EdgeInsets.fromLTRB(80, 0.0, 5.0, 0.0),
-                      prefixIcon: Icon(Icons.search),
+                      prefixIcon: Icon(Icons.search,color: Color(0xFFeccc68),),
                     errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 1,color: Colors.red)
+                      borderSide: BorderSide(width: 0,color: Colors.lightBlue)
                   ),
                     border :
                     OutlineInputBorder(
@@ -166,7 +167,6 @@ class _ListView1 extends State<ListView1>  {
                   onTap: ()  => search(_searchQueryController.text),
                   onChanged: search1(_searchQueryController.text) ,
                   onSubmitted: (_searchQueryController){
-                   print(_searchQueryController);
                    search(_searchQueryController);
                   },
 
@@ -225,7 +225,6 @@ class _ListView1 extends State<ListView1>  {
                                       onChanged: (radioSelect value) {
                                         setState(() {
                                           selected = value;
-                                          print("data");
                                         });
                                       },
                                     ),
@@ -241,7 +240,6 @@ class _ListView1 extends State<ListView1>  {
                                       groupValue: selected,
                                       onChanged: (radioSelect value) {
                                         setState(() {
-                                          print("Csv");
                                           selected = value;
                                         });
                                       },
@@ -271,10 +269,10 @@ class _ListView1 extends State<ListView1>  {
 
                         actions: <Widget>[
                           FlatButton(
-                            child: Text("  تمام ؟ "),
+                            child: Text("  متأكد ؟ "),
                             onPressed: () async  {
 
-                              if (_fileName.text.isEmpty) {
+                              if (_fileName.text == "") {
                                   Toast.show(
                                   "سمي الملف !!"
                                   , context, border: Border.all(width: 5),
@@ -292,7 +290,7 @@ class _ListView1 extends State<ListView1>  {
                                     { await file.saveAsCsvFile(_fileName.text+".csv", myData);}
                                     break;
                                  case radioSelect.text:
-                                    {await file.saveAsTextFile(_fileName.text+".text", myData);}
+                                    {await file.saveAsTextFile(_fileName.text+".txt", myData);}
                                     break;
                                 }
                               }
@@ -302,7 +300,6 @@ class _ListView1 extends State<ListView1>  {
                                   Navigator.pop(context);
                                 });
                               });
-
                               Toast.show(
                                   "/storage/emulated/0/Android/data/com.tabarak.accounts/files/account/${_fileName
                                       .text}"
@@ -365,11 +362,10 @@ class _ListView1 extends State<ListView1>  {
             IconButton(
                 icon: Icon(Icons.attach_file, color: Colors.greenAccent,
                   textDirection: TextDirection.ltr,),
-                onPressed: () {
+                onPressed: () async {
                   pr.show();
                   Future.sync(getExFile).then((value) {
                     pr.hide().whenComplete(() {
-                      print("complete");
                       if (errorF != "") {
                         Toast.show(errorF, context, border: Border(),
                             textColor: Colors.black,
@@ -504,7 +500,6 @@ class _ListView1 extends State<ListView1>  {
   ///DeleteItems
   _deleteItem(BuildContext context,Model model, int i){
 
-    // debugPrint("$i --- ${model.id}");
 
     db.delete(model.id).then((action){
       db.retrieveN().then((information) {
@@ -599,7 +594,6 @@ class _ListView1 extends State<ListView1>  {
 ///
   await db.saveNT(model).then(
             (action) {
-              print("returen insert :"+"$action");
 
               db.retrieveN().then((information) {
             setState(() {
@@ -623,8 +617,6 @@ class _ListView1 extends State<ListView1>  {
   ///showAndEdit
   _navigateToInfo(context, Model model) async {
 
-   // debugPrint("worked");
-
     await Navigator.push(
       context,MaterialPageRoute(builder: (context) => AllOInfo(model)),
     );
@@ -636,9 +628,7 @@ class _ListView1 extends State<ListView1>  {
 
   int i = 0;
   int length = myDataBack.length;
-  print(length);
   while(i < length) {
-   print("loop"+"$i");
    Model object = new
    Model(myDataBack[i].gName, myDataBack[i].gEmail, myDataBack[i].gPassword);
    await db.saveNT(object);

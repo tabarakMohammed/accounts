@@ -25,23 +25,20 @@ class _Login extends State<Login>  {
 
   BioMetric bb = new BioMetric();
   String massige = "";
-  String _platformVersion = 'Unknown';
 
 
   Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
+    String authCheck;
     try {
-      platformVersion = await KeyGuardmanager.authStatus;
-      if(platformVersion == "true"){
+      authCheck = await KeyGuardmanager.authStatus;
+      if(authCheck == "true"){
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => ListView1()),
         );
       }
-      print(platformVersion);
     } on PlatformException {
-      platformVersion = 'Failed to get platform offline Auth.';
+      authCheck = 'Failed to get platform offline Auth.';
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -50,7 +47,6 @@ class _Login extends State<Login>  {
     if (!mounted) return;
 
     setState(() {
-      _platformVersion = platformVersion;
     });
   }
 
@@ -63,13 +59,18 @@ class _Login extends State<Login>  {
         textDirection: TextDirection.rtl,
 
         child: Scaffold(
-            backgroundColor:Color(0xFFFFcd84f1),
+            backgroundColor:Color(0xFF2f3542),
 
             appBar: AppBar(
 
-              title: Text("حساباتي"),
+              title: Text("حساباتي",
+                style:TextStyle(
+                  color: Color(0xFFeccc68),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ) ,),
 
-              backgroundColor: Color(0xFF2c2c54),
+              backgroundColor: Color(0xFF2f3542),
               actions: <Widget>[
                 IconButton(icon: Icon(Icons.face), onPressed: showMassage,
                 ),
@@ -83,41 +84,44 @@ class _Login extends State<Login>  {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-//                   new Text(_responseFromNativeCode.toString()),
 
-                    new Text("للتحقق من هويتك بأستخدام بصمتك المميزة",
-
-                      style:TextStyle(
-
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ) ,
-
-
-                    ),
 
                     //   padding: EdgeInsets.all(5),
-                    new Text("اضغط على زر تسجيل الدخول لطفاً",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ), textAlign: TextAlign.center,
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
+                        crossAxisAlignment: CrossAxisAlignment.center, //Center Row contents vertically,,
+                        children: <Widget>[
+                           Container(
+                                  padding: EdgeInsets.only(top: 10),
+                                  child:
+                                  IconButton(onPressed: initPlatformState ,
+                                      color: Color(0xFFeccc68),
+                                      icon: Icon(Icons.apps)),
+                          ),
+
+                          Container(
+                            padding: EdgeInsets.only(top: 10),
+                            child:
+                            new Text("تسجيل دخول",
+
+                              style:TextStyle(
+                                color: Color(0xFFeccc68),
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ) ,
+                          ),
+                          ),
+
+                          Container(
+                            padding: EdgeInsets.only(top: 10),
+                            child:
+                            IconButton(onPressed: checkCheck ,
+                              color: Color(0xFFeccc68),
+                              icon: Icon(Icons.fingerprint),),
+                          ),
+                        ]
                     ),
-                    Text('Running on: $_platformVersion\n'),
-                    Container(
-                      padding: EdgeInsets.only(top: 10),
-                      child:
-                      OutlineButton.icon(onPressed: initPlatformState ,
-                          label: new Text("تسجيل الدخول",),
-                          icon: Icon(Icons.play_arrow)),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(top: 10),
-                      child:
-                      OutlineButton.icon(onPressed: checkCheck ,
-                          label: new Text("تسجيل الدخول يصمة",),
-                          icon: Icon(Icons.play_arrow)),
-                    ),
+
                     Container(
                         padding: EdgeInsets.only(top: 50),
                         child: new Text("$massige",

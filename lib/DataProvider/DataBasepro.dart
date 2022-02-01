@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:accounts/infoModel/Model.dart';
@@ -30,7 +29,7 @@ class SqlLight{
 
     String databasePath = await getDatabasesPath();
     String path = join(databasePath , 'Acounts.db');
-    var db = await openDatabase(path , version: 2 , onCreate: _onCreate);
+    var db = await openDatabase(path , version: 3 , onCreate: _onCreate);
     return db;
   }
 
@@ -88,28 +87,23 @@ class SqlLight{
 
   Future<File> backup( String fileName) async{
 
-   // var databasesPath = await getDatabasesPath();
-   /// var path = join(databasesPath, "example.db");
-      var path = await db;
-        //path.path;
-// Check if the database exists
+    var path = await db;
     var exists = await databaseExists(path.path);
+    var mydatapath =  path.path;
+
 try {
   if (!exists) {
-    // Should happen only the first time you launch your application
-    print("no data here");
+    print("data not exist");
     return null;
   } else {
     // Copy
-    ByteData data = await rootBundle.load(join(path.path));
+    var data1 = await File(mydatapath).readAsBytes();
+    //print(await File(mydatapath).readAsBytes());
     List<int> bytes =
-    data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+    data1.buffer.asUint8List(data1.offsetInBytes, data1.lengthInBytes);
     FilePath getPath = new FilePath();
     final pathd = await getPath.appFile();
-
-    // Write and flush the bytes written
-    print("Opening existing database");
-    return await File('$pathd/$fileName.db').writeAsBytes(bytes, flush: true);
+    return await File('$pathd/$fileName'+'.db').writeAsBytes(bytes);
 
   }
 } catch(e){
@@ -119,7 +113,8 @@ try {
 
   }
   Future<List> readExsSqlBase(var path) async{
-    Database db1 = await openDatabase('$path');
+    var db1 = await openDatabase(path);
+    try {
       var result = await db1.query(
           namesTable,
           columns:
@@ -128,10 +123,13 @@ try {
             emails,
             passwordApps]
       );
-      print(result.toList());
+
       await db1.close();
       return result.toList();
-
+    } catch(e) {
+      print(e);
+      return null;
+    }
   }
 
   Future<List> searchByName(String webName) async{
