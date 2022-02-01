@@ -20,9 +20,7 @@ class BioMetric {
 
     final List<BiometricType> availableBiometrics = await auth
         .getAvailableBiometrics();
-    availableBiometrics.forEach((f){
-      print(f);
-    });
+
 
     if (Platform.isAndroid) {
       switch (availableBiometrics.toString()) {

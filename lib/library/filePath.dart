@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:downloads_path_provider/downloads_path_provider.dart';
 
 
 class FilePath {
@@ -14,32 +13,5 @@ class FilePath {
     return appDir.path;
   }
 
-
-
-
-//   Future<String> get downloadDirectory async{
-//     Directory downloadsDirectory = await DownloadsPathProvider.downloadsDirectory;
-//     String tempPath = downloadsDirectory.path;
-// ///    debugPrint("path from path class : $tempPath");
-//     return tempPath;
-//
-//   }
-
-//
-//  Future getExFilePath() async {
-//    Map<String, String> filesPaths;
-//    try {
-//      var path = await FilePicker.getFilePath();
-//      print(path);
-//      if(path.endsWith(".db"))
-//      {
-//        return filesPaths;
-//      } else
-//      return null;
-//    } catch(e) {
-//      print(e);
-//      return "error";
-//    }
- // }
 
 }
