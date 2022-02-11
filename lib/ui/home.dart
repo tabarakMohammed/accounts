@@ -1,15 +1,18 @@
+import 'package:accounts/library/NotificationService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:accounts/DataProvider/DataBasepro.dart';
 import 'package:accounts/infoModel/Model.dart';
 import 'package:accounts/ui/allOinfo.dart';
 import 'package:accounts/library/hereFile.dart';
-import 'package:progress_dialog/progress_dialog.dart';
-import 'package:toast/toast.dart';
+
 
 import 'dart:async';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
+
+import 'NotifyPage.dart';
 
 class ListView1 extends StatefulWidget  {
 
@@ -17,13 +20,14 @@ class ListView1 extends StatefulWidget  {
   _ListView1 createState()  => new _ListView1();
 
 }
+
 enum radioSelect { database, CSV ,text}
 
 class _ListView1 extends State<ListView1>  {
 
   double percentage = 0.0;
-  List<Model> myData = new List();
-  List<Model> myDataBack = new List<Model>();
+  List<Model> myData = new List.empty(growable: true);
+  List<Model> myDataBack = new List<Model>.empty(growable: true);
   SqlLight db = new SqlLight();
   String errorF = "";
 
@@ -54,12 +58,18 @@ class _ListView1 extends State<ListView1>  {
 ///import databaseFile
   void getExFile() async {
     try {
-      var path = await FilePicker.getFilePath();
-     //  debugPrint(path);
+      var result =  await FilePicker.platform.pickFiles();
+       var path;
+
+      if (result != null) {
+        path = (result.files.single.path);
+      } else {
+        {errorF = " !!! ";}
+      }
+
       if( path == null )
         {
           {errorF = " !!! ";}
-
         }
       else if(path.endsWith(".db")) {
         List infoBack = await db.readExsSqlBase(path);
@@ -74,7 +84,7 @@ class _ListView1 extends State<ListView1>  {
             { errorF = "تأكد من أمتداد الفايل .db ";}
     }
     catch(e) {
-      errorF = e;
+      errorF = e.toString();
     }
   }
 
@@ -98,27 +108,25 @@ class _ListView1 extends State<ListView1>  {
   });
 
     });
-
+    NotificationService.initialize();
+    selectNoty();
   }
 
+  void selectNoty() =>   NotificationService.LocalNotificationSelect.stream.listen((String? payload) async {
+  await Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>
+  NotifyPage(boady : payload)));
+});
 
   @override
   Widget build(BuildContext context) {
-    ProgressDialog pr = new ProgressDialog(context);
-    pr.style(
-        message: 'الرجاء الأنتظار...',
-        borderRadius: 10.0,
-        backgroundColor: Colors.white,
-        progressWidget: CircularProgressIndicator(),
-        elevation: 10.0,
-        insetAnimCurve: Curves.easeInOut,
-        progress: 0.0,
-        maxProgress: 100.0,
-        progressTextStyle: TextStyle(
-            color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
-        messageTextStyle: TextStyle(
-            color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600)
-    );
+    ProgressDialog pr = new ProgressDialog(context: context);
+    // pr.show(
+    //     msg: 'الرجاء الأنتظار...',
+    //     borderRadius: 10.0,
+    //     backgroundColor: Colors.white,
+    //     max: 1,
+    // );
+
     return MaterialApp(
 
       home: Scaffold(
@@ -188,12 +196,13 @@ class _ListView1 extends State<ListView1>  {
             ),
 
           actions: <Widget>[
+
             IconButton(
                 icon: Icon(Icons.save, color: Colors.greenAccent,
                   textDirection: TextDirection.ltr,),
                 onPressed: () async {
                   CreateFile file = new CreateFile();
-                  radioSelect selected = radioSelect.database;
+                  radioSelect? selected = radioSelect.database;
 
                   return showDialog<void>(
                     context: context,
@@ -220,9 +229,10 @@ class _ListView1 extends State<ListView1>  {
                                   children: <Widget>[
                                     Text("database" + "ملف"),
                                     Radio(
+
                                       value: radioSelect.database,
                                       groupValue: selected,
-                                      onChanged: (radioSelect value) {
+                                      onChanged: (radioSelect? value) {
                                         setState(() {
                                           selected = value;
                                         });
@@ -238,7 +248,7 @@ class _ListView1 extends State<ListView1>  {
                                     Radio(
                                       value: radioSelect.CSV,
                                       groupValue: selected,
-                                      onChanged: (radioSelect value) {
+                                      onChanged: (radioSelect? value) {
                                         setState(() {
                                           selected = value;
                                         });
@@ -253,7 +263,7 @@ class _ListView1 extends State<ListView1>  {
                               activeColor: Colors.blue,
                           value: radioSelect.text,
                               groupValue: selected,
-                          onChanged: (radioSelect value) {
+                          onChanged: (radioSelect? value) {
                             setState(() {
                               selected = value;
                             });
@@ -270,44 +280,50 @@ class _ListView1 extends State<ListView1>  {
                         actions: <Widget>[
                           FlatButton(
                             child: Text("  متأكد ؟ "),
-                            onPressed: () async  {
+                             onPressed: () async  {
 
                               if (_fileName.text == "") {
-                                  Toast.show(
-                                  "سمي الملف !!"
-                                  , context, border: Border.all(width: 5),
-                                  textColor: Colors.black,
-                                  backgroundColor: Colors.white,
-                                  duration: 5,
-                                  gravity: Toast.BOTTOM);
-                                  }
-                              else{
-                               switch(selected) {
-                                 case radioSelect.database:
-                                    { await db.backup(_fileName.text);
-                                    } break;
-                                 case radioSelect.CSV:
-                                    { await file.saveAsCsvFile(_fileName.text+".csv", myData);}
+                                //print("سمي الملف !!");
+                                Navigator.pop(context);
+                                _showDialog("حدث خطأ", "يرجى تسمية الملف");
+
+                              }else {
+                                switch (selected) {
+                                  case radioSelect.database:
+                                    {
+                                      await db.backup(_fileName.text);
+
+                                    }
                                     break;
-                                 case radioSelect.text:
-                                    {await file.saveAsTextFile(_fileName.text+".txt", myData);}
+                                  case radioSelect.CSV:
+                                    {
+                                      await file.saveAsCsvFile(
+                                          _fileName.text + ".csv", myData);
+                                    }
+                                    break;
+                                  case radioSelect.text:
+                                    {
+                                      await file.saveAsTextFile(
+                                          _fileName.text + ".txt", myData);
+                                    }
                                     break;
                                 }
-                              }
-                               pr.show();
-                              Future.delayed(Duration(seconds: 1)).then((onValue){
-                                pr.hide().whenComplete((){
-                                  Navigator.pop(context);
+                                String body = "/storage/emulated/0/Android/data/"
+                                    "com.tabarak.accounts/files/account/${_fileName
+                                    .text}";
+
+                                pr.show(max: 100, msg: "انتظر");
+                                Future.delayed(Duration(seconds: 1)).then((
+                                    onValue) {
+                                    pr.close();
+                                    Navigator.pop(context);
+                                    NotificationService.showNotify(
+                                      title: "تم الحفظ في",
+                                      body: body,
+                                      payload: body,
+                                    );
                                 });
-                              });
-                              Toast.show(
-                                  "/storage/emulated/0/Android/data/com.tabarak.accounts/files/account/${_fileName
-                                      .text}"
-                                  , context, border: Border(),
-                                  textColor: Colors.black,
-                                  backgroundColor: Colors.white,
-                                  duration: 10,
-                                  gravity: Toast.BOTTOM);
+                              }
                             }
                           ),
                           new FlatButton(
@@ -325,7 +341,7 @@ class _ListView1 extends State<ListView1>  {
               icon: Icon(Icons.delete_forever, color: Colors.red,
                 textDirection: TextDirection.ltr,),
 
-              onPressed: () {
+              onPressed: () async {
                 return showDialog<void>(
                   context: context,
                   builder: (BuildContext context) {
@@ -363,20 +379,17 @@ class _ListView1 extends State<ListView1>  {
                 icon: Icon(Icons.attach_file, color: Colors.greenAccent,
                   textDirection: TextDirection.ltr,),
                 onPressed: () async {
-                  pr.show();
+                  pr.show(max: 100,msg:"انتظر");
                   Future.sync(getExFile).then((value) {
-                    pr.hide().whenComplete(() {
-                      if (errorF != "") {
-                        Toast.show(errorF, context, border: Border(),
-                            textColor: Colors.black,
-                            backgroundColor: Colors.pinkAccent,
-                            duration: 10,
-                            gravity: Toast.BOTTOM);
+                    pr.close();
+                    if (errorF != "") {
+                    Navigator.pop(context);
+                    _showDialog("حدث خطأ", errorF);
                         errorF = "";
                       }
-                    });
+
                   });
-                }),
+                 }),
 
           ],
         ),
@@ -397,21 +410,22 @@ class _ListView1 extends State<ListView1>  {
 
                         new Expanded(
                           child: Card(
-                            color: Color(0XFFf7f1e3),///ffcccc
+                            color: Color(0XFFf7f1e3),
                             shape:
                             RoundedRectangleBorder(
-                                borderRadius: BorderRadiusDirectional.circular(
-                                    20.3)),
+                                borderRadius: BorderRadiusDirectional.horizontal( start:
+                                Radius.zero,end:Radius.elliptical(50, 50)
+                                    )),
                             child: ListTile(
-                              title: Text('${myData[i].webNames}',
-                                style: TextStyle(
-                                    fontSize: 24.0, color: Color(0xFF596275)
+                              title: Text('${myData[i].emails}',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(fontSize: 11.0, color: Color(0xFFe17055)
                                 ),
                                 //  textDirection: TextDirection.rtl,
                               ),
-                              subtitle: Text(' ${myData[i].emails}',
+                              subtitle: Text(' ${myData[i].webNames}',
                                 style: TextStyle(
-                                  fontSize: 16.0, color: Color(0xFFcd6133),
+                                  fontSize: 24.0, color: Color(0xFF2d3436),
                                   fontStyle: FontStyle.italic,
                                 ),
                                 //   textDirection: TextDirection.rtl,
@@ -624,7 +638,7 @@ class _ListView1 extends State<ListView1>  {
   }
 
 ///save imported file to local app database
-  Future<bool> BackupInsert() async{
+  Future<bool?> BackupInsert() async{
 
   int i = 0;
   int length = myDataBack.length;
@@ -634,6 +648,7 @@ class _ListView1 extends State<ListView1>  {
    await db.saveNT(object);
    i++;
  }
+
  myDataBack.clear();
           db.retrieveN().then((information) {
             setState(() {
@@ -655,7 +670,33 @@ class _ListView1 extends State<ListView1>  {
     );
   }
 
+  Future<void> _showDialog(String? title,String? alertMessage) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title:  Text(title?? ""),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children:  <Widget>[
+                Text(alertMessage ?? ""),
 
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('موافق'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 

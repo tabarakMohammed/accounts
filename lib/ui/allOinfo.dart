@@ -60,18 +60,22 @@ class _AllOInfo extends State<AllOInfo> {
     return MaterialApp(
 
       home: Scaffold(
-        backgroundColor:Color(0xFFFFcd84f1),
+        backgroundColor:Color(0xFF2f3542),/***/
         appBar: AppBar(
           actions: <Widget>[
             IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: Icon(Icons.arrow_back, color: Colors.purple,
+                icon: Icon(Icons.arrow_back, color: Color(0xFFeccc68),
                   textDirection: TextDirection.rtl,)),
 
           ],
-          title: Text("حساباتي"),
-          centerTitle: true,
-          backgroundColor: Color(0xFF2c2c54),
+          title: Text("حساباتي",textAlign: TextAlign.right,
+              style:TextStyle(
+              color: Color(0xFFeccc68),
+              fontSize: 18,
+              fontWeight: FontWeight.bold,)),
+
+          backgroundColor: Color(0xFF2f3542),
         ),
         body: ListView(children: <Widget>[
 
@@ -91,7 +95,7 @@ class _AllOInfo extends State<AllOInfo> {
                       child:
                       new Text(' ${widget.model.webNames} ',
                         style: TextStyle(
-                            fontSize: 30.7, color: Color(0xFF596275)
+                            fontSize: 30.7, color: Color(0xFF2d3436)
                         ),
                       )
                   ),
@@ -101,7 +105,7 @@ class _AllOInfo extends State<AllOInfo> {
                       child:
                       new Text(' ${widget.model.emails} ',
                         style: TextStyle(
-                            fontSize: 30.7, color: Color(0xFF596275)
+                            fontSize: 30.7, color: Color(0xFF2d3436)
                         ),
                       )
                   ),
@@ -111,7 +115,7 @@ class _AllOInfo extends State<AllOInfo> {
                       child:
                       new Text(' ${widget.model.passwordApps} ',
                         style: TextStyle(
-                            fontSize: 30.7, color: Color(0xFF596275)
+                            fontSize: 30.7, color: Color(0xFF2d3436)
                         ),
                       )
                   ),
@@ -133,11 +137,14 @@ class _AllOInfo extends State<AllOInfo> {
                       children: <Widget>[
 
                         TextField(
+                          textAlign: TextAlign.right,
                           enabled: itsWorked,
                           controller: _uerName,
+                          style: TextStyle( color: Color(0XFFf7f1e3)),
                           decoration: new InputDecoration(
-                            icon: Icon(Icons.apps,size: 20.5),
-                            hintText: 'أسم الموقع',
+                            icon: Icon(Icons.apps,size: 20.5,color:Color(0XFFfdcb6e) ,),
+                            hintText:  'أسم الموقع' ,
+                            hintStyle: TextStyle(fontSize: 19.0, color:Color(0XFFfdcb6e)),
                             contentPadding: EdgeInsets.all(10),
                           ),
 
@@ -147,9 +154,13 @@ class _AllOInfo extends State<AllOInfo> {
                         TextField(
                           enabled: itsWorked,
                           controller: _email,
+                          style: TextStyle( color: Color(0XFFf7f1e3)),
+                          textAlign: TextAlign.right,
+
                           decoration: new InputDecoration(
-                            icon: Icon(Icons.email,size: 20.5),
+                            icon: Icon(Icons.email,size: 20.5,color:Color(0XFFfdcb6e)),
                             hintText: 'بريد ألكتروني',
+                            hintStyle: TextStyle(fontSize: 19.0, color:Color(0XFFfdcb6e)),
                             contentPadding: EdgeInsets.all(10),
 
                           ),
@@ -158,9 +169,13 @@ class _AllOInfo extends State<AllOInfo> {
                         TextField(
                           enabled: itsWorked,
                           controller: _passward,
+                          style: TextStyle( color: Color(0XFFf7f1e3)),
+                          textAlign: TextAlign.right,
+
                           decoration: new InputDecoration(
-                            icon: Icon(Icons.stars,size: 20.5,),
+                            icon: Icon(Icons.stars,size: 20.5,color:Color(0XFFfdcb6e)),
                             hintText: 'رقم سري',
+                            hintStyle: TextStyle(fontSize: 19.0, color:Color(0XFFfdcb6e)),
                             contentPadding: EdgeInsets.all(10),
 
                           ),
@@ -180,14 +195,15 @@ class _AllOInfo extends State<AllOInfo> {
                                 onPressed: itsWorked ? upDate : null,
                                 icon: Icon(Icons.system_update),
                                 highlightColor:  Colors.red,
-                                textColor: Colors.red,
+                                textColor:Color(0XFFe17055) ,
                                 label: Text("حفظ"),
                               ),
 
                               OutlineButton.icon(icon: Icon(Icons.edit),
                                 textColor: Colors.yellow,
                                 highlightColor:  Colors.yellow,
-                                onPressed: itsWorked1 ? set : null,
+                                onPressed: itsWorked1 ? set : null ,
+
                                 label: Text("تعديل"),
 
                               ),
@@ -197,11 +213,7 @@ class _AllOInfo extends State<AllOInfo> {
                                 highlightColor:  Colors.white,
                                 textColor: Colors.white,
                                   icon: Icon(Icons.restore),
-                                  onPressed: () {
-                                    _uerName.text = myinfo['names'];
-                                    _email.text = myinfo['email'];
-                                    _passward.text = myinfo['passward'];
-                                  },
+                                  onPressed: setInfoBox,
                                 label: Text('أستعادة',
                                   style: TextStyle(fontStyle: FontStyle.italic),),
                               )
@@ -248,12 +260,13 @@ class _AllOInfo extends State<AllOInfo> {
         MaterialPageRoute(builder: (context) => ListView1()),
       );
     });
-
-
-
   }
 
-
+   void setInfoBox(){
+    _uerName.text = myinfo['names'];
+    _email.text = myinfo['email'];
+    _passward.text = myinfo['passward'];
+  }
 }
 
 

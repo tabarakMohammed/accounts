@@ -15,7 +15,7 @@ version: 3.1.1+2
 
 
 environment:
-  sdk: ">=2.2.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 
 dependencies:
@@ -25,17 +25,17 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.3
-  sqflite: ^1.1.8
-  local_auth: ^0.4.0+1
-  url_launcher: ^5.4.1
-  file_picker: ^1.4.3
-  path_provider: ^1.6.0
-  csv: ^4.0.3
-  progress_dialog: ^1.2.1
-  toast: ^0.1.5
-  key_guardmanager: ^0.0.1
-
+  cupertino_icons: ^1.0.3-nullsafety
+  sqflite: ^2.0.2-nullsafety
+  local_auth: ^1.1.7-nullsafety
+  url_launcher: ^6.0.6-nullsafety
+  file_picker: ^4.3.1-nullsafety
+  path_provider: ^2.0.4-nullsafety
+  csv: ^5.0.1-nullsafety
+  sn_progress_dialog: ^1.0.3-nullsafety
+  flutter_local_notifications: ^9.2.0-nullsafety
+  key_guardmanager: ^1.0.0-nullsafety
+  rxdart: ^0.27.3-nullsafety
 
 
 
