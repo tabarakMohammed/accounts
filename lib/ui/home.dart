@@ -114,7 +114,7 @@ class _ListView1 extends State<ListView1>  {
 
   void selectNoty() =>   NotificationService.LocalNotificationSelect.stream.listen((String? payload) async {
   await Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>
-  NotifyPage(boady : payload)));
+  NotifyPage(body : payload)));
 });
 
   @override
