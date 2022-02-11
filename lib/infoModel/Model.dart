@@ -1,10 +1,10 @@
 class Model {
 
 
-  int id ;
-  String webNames;
-  String emails;
-  String passwordApps;
+  int? id ;
+  String? webNames;
+  String? emails;
+  String? passwordApps;
 
   Model(this.webNames,this.emails,this.passwordApps);
 
@@ -17,10 +17,10 @@ class Model {
   }
 
 
-  int     get gId       => id;
-  String  get gName     => webNames;
-  String  get gEmail    => emails;
-  String  get gPassword => passwordApps;
+  int?     get gId       => id;
+  String?  get gName     => webNames;
+  String?  get gEmail    => emails;
+  String?  get gPassword => passwordApps;
 
   Map<String,dynamic> toMap(){
     var object = new Map<String , dynamic>();

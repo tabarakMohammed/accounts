@@ -17,9 +17,9 @@ class CreateFile {
   Future<File> saveAsCsvFile(String fileName, List<Model> data) async {
     final file = await localFile(fileName);
 
-    List<List<dynamic>> col = new List<List<dynamic>>();
+    List<List<dynamic>> col = new List<List<dynamic>>.empty(growable: true);
     for (int i = 0; i <data.length;i++) {
-      List<dynamic> row = List();
+      List<dynamic> row = List.empty(growable: true);
 
       row.add(data[i].id);
       row.add(data[i].gName);
@@ -37,9 +37,9 @@ class CreateFile {
   return file ;
   }
 
-  Future<File> saveAsTextFile(String fileName, List<Model> list) async {
+  Future<File?> saveAsTextFile(String fileName, List<Model> list) async {
     final file = await localFile(fileName);
-    List<String> infoList = new List<String>();
+    List<String> infoList = new List<String>.empty(growable: true);
     list.forEach((user)
     {
       infoList.add("${user.toMap()}");

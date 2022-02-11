@@ -32,14 +32,14 @@ class BioMetric {
             ///  debugPrint("worked!! face ");
 
               try {
-                authenticated = await auth.authenticateWithBiometrics(
+                authenticated = await auth.authenticate(
 
                     localizedReason: 'أستخدم بصمة الوجه',
                     androidAuthStrings: AndroidAuthMessages(
-                      fingerprintHint: "متحسس البصمة",
-                      fingerprintNotRecognized: "أدخال غير صحيح، لم يتم تميز البصمة ",
-                      fingerprintRequiredTitle: "بصمتك مطلوبة !",
-                      fingerprintSuccess: "تم بنجاح",
+                      biometricHint: "متحسس البصمة",
+                      biometricNotRecognized:  "أدخال غير صحيح، لم يتم تميز البصمة ",
+                      biometricRequiredTitle: "بصمتك مطلوبة !",
+                      biometricSuccess:  "تم بنجاح",
                       signInTitle: "بصمة الوجه",
                       cancelButton: 'الغاء',
                       goToSettingsButton: 'أعدادات',
@@ -67,14 +67,14 @@ class BioMetric {
 
             ///  debugPrint("worked!! finger ");
             try {
-              authenticated = await auth.authenticateWithBiometrics(
+              authenticated = await auth.authenticate(
 
                   localizedReason: 'أستخدم بصمة الأصبع',
                   androidAuthStrings: AndroidAuthMessages(
-                    fingerprintHint: "متحسس البصمة",
-                    fingerprintNotRecognized: "أدخال غير صحيح، لم يتم تميز البصمة ",
-                    fingerprintRequiredTitle: "بصمتك مطلوبة !",
-                    fingerprintSuccess: "تم بنجاح",
+                    biometricHint: "متحسس البصمة",
+                    biometricNotRecognized: "أدخال غير صحيح، لم يتم تميز البصمة ",
+                    biometricRequiredTitle: "بصمتك مطلوبة !",
+                    biometricSuccess: "تم بنجاح",
                     signInTitle: "بصمة الأصبع",
                     cancelButton: 'الغاء',
 
@@ -118,7 +118,7 @@ class BioMetric {
             ///  debugPrint("worked!! face ");
 
             try {
-              authenticated = await auth.authenticateWithBiometrics(
+              authenticated = await auth.authenticate(
                   localizedReason: 'أستخدم بصمة الوجه',
                   iOSAuthStrings: IOSAuthMessages(
                     lockOut: "بصمة الوجه",
@@ -148,7 +148,7 @@ class BioMetric {
             /// debugPrint("worked!! finger ");
 
             try {
-              authenticated = await auth.authenticateWithBiometrics(
+              authenticated = await auth.authenticate(
 
                   localizedReason: 'أستخدم بصمة الأصبع',
                   iOSAuthStrings: IOSAuthMessages(
