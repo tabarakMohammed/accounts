@@ -22,7 +22,7 @@ class NotifyPage extends StatelessWidget {
         Padding(
         padding: const EdgeInsets.all(8.0),
            child:  Text(
-              boady ?? "",
+              body ?? "",
 
               style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,
               color: Colors.white),
