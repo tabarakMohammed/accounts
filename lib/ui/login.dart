@@ -243,8 +243,8 @@ class _Login extends State<Login>  {
 
   _goToUrl() async {
 
-    if (await canLaunch('https://github.com/tabarakMohammed/AccountsFlutterApp')) {
-      await launch('https://github.com/tabarakMohammed/AccountsFlutterApp');
+    if (await canLaunch('https://github.com/tabarakMohammed/accounts')) {
+      await launch('https://github.com/tabarakMohammed/accounts');
     } else {
       throw 'حدث خطأ ما، لا نستطيع الوصول للموقع ';
     }
