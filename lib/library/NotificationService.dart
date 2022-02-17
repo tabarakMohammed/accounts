@@ -6,7 +6,6 @@ import 'dart:async';
 
 
 
-//import 'package:device_info/device_info.dart';
 
 
 class NotificationService {

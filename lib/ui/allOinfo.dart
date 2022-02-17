@@ -191,31 +191,32 @@ class _AllOInfo extends State<AllOInfo> {
 
                             children: <Widget>[
 
-                              OutlineButton.icon(
+                              OutlinedButton.icon(
                                 onPressed: itsWorked ? upDate : null,
                                 icon: Icon(Icons.system_update),
-                                highlightColor:  Colors.red,
-                                textColor:Color(0XFFe17055) ,
-                                label: Text("حفظ"),
+
+                               // highlightColor:  Colors.red,
+                               // textColor:Color(0XFFe17055) ,
+                                label: Text("حفظ" , style:TextStyle(color: Color(0XFFe17055)) ),
                               ),
 
-                              OutlineButton.icon(icon: Icon(Icons.edit),
-                                textColor: Colors.yellow,
-                                highlightColor:  Colors.yellow,
+                              OutlinedButton.icon(icon: Icon(Icons.edit),
+                              //  textColor: Colors.yellow,
+                               // highlightColor:  Colors.yellow,
                                 onPressed: itsWorked1 ? set : null ,
 
-                                label: Text("تعديل"),
+                                label: Text("تعديل", style:TextStyle(color: Colors.yellow)),
 
                               ),
 
-                              OutlineButton.icon(
+                              OutlinedButton.icon(
 
-                                highlightColor:  Colors.white,
-                                textColor: Colors.white,
+                             //   highlightColor:  Colors.white,
+                             //   textColor: Colors.white,
                                   icon: Icon(Icons.restore),
                                   onPressed: setInfoBox,
                                 label: Text('أستعادة',
-                                  style: TextStyle(fontStyle: FontStyle.italic),),
+                                  style: TextStyle(fontStyle: FontStyle.italic,color: Colors.white),),
                               )
 
                             ],

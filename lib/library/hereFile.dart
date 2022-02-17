@@ -1,7 +1,6 @@
 import 'package:accounts/infoModel/Model.dart';
 import 'dart:io';
 import 'package:accounts/library/filePath.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:csv/csv.dart';
 
 class CreateFile {
