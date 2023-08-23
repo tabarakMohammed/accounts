@@ -72,6 +72,8 @@ class _ListView1 extends State<ListView1>  {
           {errorF = " !!! ";}
         }
       else if(path.endsWith(".db")) {
+
+        /*decryption */
         List infoBack = await db.readExsSqlBase(path);
         infoBack.forEach((info) {
           myDataBack.add(Model.map(info));

@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 3.1.2
+version: 5.2.2
 
 
 environment:
@@ -36,7 +36,6 @@ dependencies:
   flutter_local_notifications: ^9.2.0-nullsafety
   key_guardmanager: ^1.0.0-nullsafety
   rxdart: ^0.27.3-nullsafety
-
 
 
 
