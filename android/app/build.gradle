@@ -43,7 +43,7 @@ android {
         applicationId "com.tabarak.accounts"
         minSdkVersion 16
         targetSdkVersion 33
-        versionCode 4
+        versionCode 5
         versionName flutterVersionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
