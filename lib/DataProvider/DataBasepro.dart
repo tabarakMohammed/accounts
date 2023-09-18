@@ -5,6 +5,8 @@ import 'package:accounts/infoModel/Model.dart';
 import 'dart:async';
 import 'package:accounts/library/filePath.dart';
 
+import '../library/encrpt.dart';
+
 class SqlLight{
 
   final String  namesTable = "namesTable";
@@ -93,7 +95,7 @@ class SqlLight{
     } else return 0;
   }
 
-  Future<File> backup( String fileName) async{
+  Future<File?> backup( String fileName) async{
 
     var path = await db;
     if(path != null) {
@@ -110,9 +112,19 @@ class SqlLight{
           //print(await File(mydatapath).readAsBytes());
           List<int> bytes =
           data1.buffer.asUint8List(data1.offsetInBytes, data1.lengthInBytes);
+
           FilePath getPath = new FilePath();
-          final pathd = await getPath.appFile();
-          return await File('$pathd/$fileName' + '.db').writeAsBytes(bytes);
+          final pathD = await getPath.appFile();
+
+          File beforeEncrypt =  await File('$pathD/$fileName' + '.db').writeAsBytes(bytes);
+
+          encrptFiles _en = new encrptFiles();
+          File? bk = await _en.writeFile(beforeEncrypt,'$pathD/$fileName' + '.aes');
+          beforeEncrypt.delete();
+
+          return bk ;
+
+          //return await File('$pathd/$fileName' + '.db').writeAsBytes(bytes);
         }
       } catch (e) {
         print(e);

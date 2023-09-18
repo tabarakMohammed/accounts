@@ -36,7 +36,7 @@ dependencies:
   flutter_local_notifications: ^9.2.0-nullsafety
   key_guardmanager: ^1.0.0-nullsafety
   rxdart: ^0.27.3-nullsafety
-
+  file_cryptor: ^0.0.3
 
 
 

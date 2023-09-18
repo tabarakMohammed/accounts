@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:accounts/library/NotificationService.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
+import '../library/encrpt.dart';
+import '../library/filePath.dart';
 import 'NotifyPage.dart';
 
 class ListView1 extends StatefulWidget  {
@@ -71,14 +75,21 @@ class _ListView1 extends State<ListView1>  {
         {
           {errorF = " !!! ";}
         }
-      else if(path.endsWith(".db")) {
+     // else if(path.endsWith(".db")) {
+        else if(path.endsWith(".aes")) {
 
-        /*decryption */
-        List infoBack = await db.readExsSqlBase(path);
+          /*decryption */
+        encrptFiles _de = new encrptFiles();
+        File? bk = await _de.readFile(path);
+
+
+        List infoBack = await db.readExsSqlBase(bk?.path);
         infoBack.forEach((info) {
           myDataBack.add(Model.map(info));
         });
-
+        if(bk != null) {
+          bk.delete();
+        }
         infoBack.clear();
         BackupInsert();
 
