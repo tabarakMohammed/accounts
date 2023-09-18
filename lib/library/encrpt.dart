@@ -7,8 +7,6 @@ import 'filePath.dart';
 
 class encrptFiles{
 
-
-
   FileCryptor fileCryptor = FileCryptor(
     key: "Your 32 bit key.................",
     iv: 16,

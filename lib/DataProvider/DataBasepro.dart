@@ -32,7 +32,7 @@ class SqlLight{
 
     String databasePath = await getDatabasesPath();
     String path = join(databasePath , 'Acounts.db');
-    var db = await openDatabase(path , version: 5 , onCreate: _onCreate);
+    var db = await openDatabase(path , version: 6 , onCreate: _onCreate);
     return db;
   }
 
